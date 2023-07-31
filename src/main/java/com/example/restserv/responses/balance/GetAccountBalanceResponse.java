@@ -3,6 +3,7 @@ package com.example.restserv.responses.balance;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GetAccountBalanceResponse {
@@ -46,5 +47,18 @@ public class GetAccountBalanceResponse {
         sb.append(", payload=").append(payload);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GetAccountBalanceResponse that = (GetAccountBalanceResponse) o;
+        return Objects.equals(status, that.status) && Objects.equals(errors, that.errors) && Objects.equals(payload, that.payload);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(status, errors, payload);
     }
 }

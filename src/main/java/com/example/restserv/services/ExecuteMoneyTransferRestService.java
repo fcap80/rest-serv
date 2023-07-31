@@ -76,7 +76,7 @@ public class ExecuteMoneyTransferRestService {
         }
     }
 
-    @Scheduled(fixedDelay = 30_000L)
+    //@Scheduled(fixedDelay = 30_000L)
     public void sendExecuteAccountBalance() {
         executeWireTransfer(14537780L,
                 "description",

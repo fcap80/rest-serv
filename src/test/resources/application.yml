@@ -1,4 +1,4 @@
-rest-base-url: 'test'
+rest-base-url: 'http://localhost:8080/'
 
 auth-schema: 'S2S'
 

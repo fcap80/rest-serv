@@ -1,6 +1,7 @@
 package com.example.restserv.responses.balance;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class GetAccountBalancePayloadResponse {
 
@@ -54,5 +55,18 @@ public class GetAccountBalancePayloadResponse {
         sb.append(", currency='").append(currency).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GetAccountBalancePayloadResponse that = (GetAccountBalancePayloadResponse) o;
+        return Objects.equals(date, that.date) && Objects.equals(balance, that.balance) && Objects.equals(availableBalance, that.availableBalance) && Objects.equals(currency, that.currency);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, balance, availableBalance, currency);
     }
 }
