@@ -3,6 +3,7 @@ package com.example.restserv.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Transaction {
@@ -96,5 +97,18 @@ public class Transaction {
         sb.append(", description='").append(description).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Transaction that = (Transaction) o;
+        return Double.compare(amount, that.amount) == 0 && Objects.equals(transactionId, that.transactionId) && Objects.equals(operationId, that.operationId) && Objects.equals(accountingDate, that.accountingDate) && Objects.equals(valueDate, that.valueDate) && Objects.equals(type, that.type) && Objects.equals(currency, that.currency) && Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(transactionId, operationId, accountingDate, valueDate, type, amount, currency, description);
     }
 }

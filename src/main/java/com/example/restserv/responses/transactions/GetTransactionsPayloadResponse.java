@@ -3,6 +3,7 @@ package com.example.restserv.responses.transactions;
 import com.example.restserv.model.Transaction;
 
 import java.util.List;
+import java.util.Objects;
 
 public class GetTransactionsPayloadResponse {
 
@@ -26,5 +27,18 @@ public class GetTransactionsPayloadResponse {
         sb.append("list=").append(list);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GetTransactionsPayloadResponse that = (GetTransactionsPayloadResponse) o;
+        return Objects.equals(list, that.list);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(list);
     }
 }
