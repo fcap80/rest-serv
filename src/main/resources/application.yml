@@ -3,3 +3,15 @@ rest-base-url: 'test'
 auth-schema: 'S2S'
 
 api-key: 'FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP'
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:rest-serv
+    username: sa
+    password: password
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
+  sql:
+    init:
+      schema-locations:
+        - classpath:schema.sql

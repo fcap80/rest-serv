@@ -1,0 +1,5 @@
+CREATE TABLE TRANSACTION (
+                                        TRANSACTION_ID       NUMBER(20) NOT NULL
+);
+
+CREATE SEQUENCE S_TRANSACTION        START WITH 1;
