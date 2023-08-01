@@ -4,6 +4,7 @@ import com.example.restserv.exceptions.RestApiException;
 import com.example.restserv.model.Transaction;
 import com.example.restserv.model.mappers.TransactionMapper;
 import com.example.restserv.requests.GetAccountTransactionsRequest;
+import com.example.restserv.responses.account.GetAccountResponse;
 import com.example.restserv.responses.transactions.GetTransactionsResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
@@ -37,7 +38,7 @@ public class GetTransactionsRestService {
         this.transactionMapper = transactionMapper;
     }
 
-    protected GetTransactionsResponse getTransactions(@Nonnull GetAccountTransactionsRequest getAccountTransactionsRequest)
+    private GetTransactionsResponse getTransactions(@Nonnull GetAccountTransactionsRequest getAccountTransactionsRequest)
             throws RestApiException, JsonProcessingException {
         String url = restServiceHelper.composeBaseUrlForAccounts();
         ResponseEntity<GetTransactionsResponse> responseEntity;
@@ -55,10 +56,10 @@ public class GetTransactionsRestService {
             return responseEntity.getBody();
         } catch (RestClientResponseException e) {
             LOGGER.error("Error", e);
-            throw new RestApiException(e);
+            return e.getResponseBodyAs(GetTransactionsResponse.class);
         } catch (Exception e) {
-            LOGGER.error("Error", e);
-            throw e;
+            LOGGER.error("Really bad Error happened", e);
+            throw new RestApiException();
         }
     }
 

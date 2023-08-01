@@ -2,4 +2,4 @@ rest-base-url: 'http://localhost:8080/'
 
 auth-schema: 'S2S'
 
-api-key: 'FXOVVXXHVCPVPBZXIJOBGUGSKHDNFRRQJP'
+api-key: 'test-key'

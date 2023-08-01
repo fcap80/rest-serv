@@ -42,10 +42,6 @@ public class RestServiceHelper {
         return restBaseUrl + "/" + SharedConstants.RestParams.ACCOUNTS_URI;
     }
 
-    public String getRestBaseUrl() {
-        return this.restBaseUrl;
-    }
-
     public HttpEntity<String> createRequestEntityForMoneyTransfer(ExecuteWireTransferRequest executeWireTransferRequest) throws JsonProcessingException {
         HttpHeaders httpHeaders = composeBasicHeaders();
         httpHeaders.add("X-Time-Zone", "");

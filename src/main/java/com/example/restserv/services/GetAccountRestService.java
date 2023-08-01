@@ -3,6 +3,7 @@ package com.example.restserv.services;
 import com.example.restserv.exceptions.RestApiException;
 import com.example.restserv.requests.GetAccountOrBalanceRequest;
 import com.example.restserv.responses.account.GetAccountResponse;
+import com.example.restserv.responses.balance.GetAccountBalanceResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class GetAccountRestService {
         this.restTemplate = restTemplate;
     }
 
-    protected GetAccountResponse getAccount(@Nonnull GetAccountOrBalanceRequest getAccountOrBalanceRequest)
+    private GetAccountResponse getAccount(@Nonnull GetAccountOrBalanceRequest getAccountOrBalanceRequest)
             throws RestApiException, JsonProcessingException {
         String url = restServiceHelper.composeBaseUrlForAccounts();
         ResponseEntity<GetAccountResponse> responseEntity;
@@ -39,10 +40,10 @@ public class GetAccountRestService {
             return responseEntity.getBody();
         } catch (RestClientResponseException e) {
             LOGGER.error("Error", e);
-            throw new RestApiException(e);
+            return e.getResponseBodyAs(GetAccountResponse.class);
         } catch (Exception e) {
-            LOGGER.error("Error", e);
-            throw e;
+            LOGGER.error("Really bad Error happened", e);
+            throw new RestApiException();
         }
     }
 

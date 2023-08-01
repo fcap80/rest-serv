@@ -3,6 +3,7 @@ package com.example.restserv.services;
 import com.example.restserv.exceptions.RestApiException;
 import com.example.restserv.requests.GetAccountOrBalanceRequest;
 import com.example.restserv.responses.balance.GetAccountBalanceResponse;
+import com.example.restserv.responses.moneytransfer.ExecuteMoneyTransferResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ public class GetAccountBalanceRestService {
             return responseEntity.getBody();
         } catch (RestClientResponseException e) {
             LOGGER.error("Error", e);
-            throw new RestApiException(e);
+            return e.getResponseBodyAs(GetAccountBalanceResponse.class);
         } catch (Exception e) {
             LOGGER.error("Error", e);
             throw e;

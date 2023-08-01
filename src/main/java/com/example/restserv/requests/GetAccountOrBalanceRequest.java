@@ -15,4 +15,12 @@ public class GetAccountOrBalanceRequest {
     public void setAccountId(long accountId) {
         this.accountId = accountId;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("GetAccountOrBalanceRequest{");
+        sb.append("accountId=").append(accountId);
+        sb.append('}');
+        return sb.toString();
+    }
 }

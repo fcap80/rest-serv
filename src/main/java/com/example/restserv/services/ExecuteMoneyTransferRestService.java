@@ -23,14 +23,11 @@ public class ExecuteMoneyTransferRestService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExecuteMoneyTransferRestService.class);
 
     private final RestServiceHelper restServiceHelper;
-    private final ObjectMapper objectMapper;
     private final RestTemplate restTemplate;
 
     public ExecuteMoneyTransferRestService(RestServiceHelper restServiceHelper,
-                                           ObjectMapper objectMapper,
                                            RestTemplate restTemplate) {
         this.restServiceHelper = restServiceHelper;
-        this.objectMapper = objectMapper;
         this.restTemplate = restTemplate;
     }
 
@@ -48,7 +45,7 @@ public class ExecuteMoneyTransferRestService {
             return e.getResponseBodyAs(ExecuteMoneyTransferResponse.class);
         } catch (Exception e) {
             LOGGER.error("Really bad Error happened", e);
-            throw e;
+            throw new RestApiException();
         }
     }
 
