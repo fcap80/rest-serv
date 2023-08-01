@@ -3,6 +3,7 @@ package com.example.restserv.responses.moneytransfer;
 import com.example.restserv.model.Error;
 
 import java.util.List;
+import java.util.Objects;
 
 public class ExecuteMoneyTransferResponse {
 
@@ -32,5 +33,18 @@ public class ExecuteMoneyTransferResponse {
         sb.append(", errors=").append(errors);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ExecuteMoneyTransferResponse that = (ExecuteMoneyTransferResponse) o;
+        return Objects.equals(status, that.status) && Objects.equals(errors, that.errors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(status, errors);
     }
 }

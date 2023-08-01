@@ -1,5 +1,7 @@
 package com.example.restserv.model;
 
+import java.util.Objects;
+
 public class Error {
 
     private String code;
@@ -28,5 +30,18 @@ public class Error {
         sb.append(", description='").append(description).append('\'');
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Error error = (Error) o;
+        return Objects.equals(code, error.code) && Objects.equals(description, error.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, description);
     }
 }

@@ -1,9 +1,9 @@
 package com.example.restserv.services;
 
+import com.example.restserv.model.Error;
 import com.example.restserv.model.Transaction;
 import com.example.restserv.model.TransactionType;
-import com.example.restserv.responses.balance.GetAccountBalancePayloadResponse;
-import com.example.restserv.responses.balance.GetAccountBalanceResponse;
+import com.example.restserv.responses.moneytransfer.ExecuteMoneyTransferResponse;
 import com.example.restserv.responses.transactions.GetTransactionsPayloadResponse;
 import com.example.restserv.responses.transactions.GetTransactionsResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -38,13 +38,15 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-class GetTransactionsRestServiceTest {
+class ExecuteMoneyTransferRestServiceTest {
+
+    private final long TEST_ACCOUNT_ID = 14537780;
 
     @Autowired
     private RestTemplate restTemplate;
 
     @Autowired
-    private GetTransactionsRestService getTransactionsRestService;
+    private ExecuteMoneyTransferRestService executeMoneyTransferRestService;
 
     private MockRestServiceServer mockServer;
     private final ObjectMapper mapper = new ObjectMapper();
@@ -62,44 +64,38 @@ class GetTransactionsRestServiceTest {
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        GetTransactionsResponse getTransactionsResponse = prepareMockResponse();
+        ExecuteMoneyTransferResponse moneyTransferResponse = prepareMockResponse();
 
         mockServer.expect(ExpectedCount.once(),
-                        requestTo(new URI("http://localhost:8080/" + ACCOUNTS_URI + "/1/transactions" +
-                                "?fromAccountingDate=" + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) +
-                                "&toAccountingDate=" + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE))))
-                .andExpect(method(HttpMethod.GET))
+                        requestTo(new URI("http://localhost:8080/" + ACCOUNTS_URI + "/" + TEST_ACCOUNT_ID + "/payments/money-transfers")))
+                .andExpect(method(HttpMethod.POST))
                 .andRespond(withStatus(HttpStatus.OK)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .body(mapper.writeValueAsString(getTransactionsResponse))
+                        .body(mapper.writeValueAsString(moneyTransferResponse))
                 );
 
-        GetTransactionsResponse transactionsResponse = getTransactionsRestService.getTransactionsRequest(
-                1, LocalDate.now(), LocalDate.now());
+        ExecuteMoneyTransferResponse transactionsResponse = executeMoneyTransferRestService.executeWireTransfer(
+                TEST_ACCOUNT_ID,
+                "desc-test",
+                "EUR",
+                100.0,
+                LocalDate.now(),
+                "Creditor-test",
+                "IBAN-test");
         mockServer.verify();
-        Assertions.assertEquals(getTransactionsResponse, transactionsResponse);
-
+        Assertions.assertEquals(moneyTransferResponse, transactionsResponse);
     }
 
-    private static GetTransactionsResponse prepareMockResponse() {
-        GetTransactionsResponse getTransactionsResponse = new GetTransactionsResponse();
-        getTransactionsResponse.setStatus("OK");
-        GetTransactionsPayloadResponse getTransactionsPayloadResponse = new GetTransactionsPayloadResponse();
-        List<Transaction> list = new ArrayList<>();
-        Transaction transaction = new Transaction();
-        transaction.setTransactionId("1");
-        transaction.setCurrency("EUR");
-        transaction.setAmount(100.0);
-        TransactionType transactionType = new TransactionType();
-        transactionType.setValue("tp-value");
-        transactionType.setEnumeration("tp-enum");
-        transaction.setType(transactionType);
-        transaction.setDescription("desc");
-        transaction.setAccountingDate(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE));
-        list.add(transaction);
-        getTransactionsPayloadResponse.setList(list);
-        getTransactionsResponse.setPayload(getTransactionsPayloadResponse);
-        return getTransactionsResponse;
-    }
+    private static ExecuteMoneyTransferResponse prepareMockResponse() {
+        ExecuteMoneyTransferResponse executeMoneyTransferResponse = new ExecuteMoneyTransferResponse();
+        executeMoneyTransferResponse.setStatus("KO");
 
+        List<Error> errors = new ArrayList<>();
+        Error error = new Error();
+        error.setCode("API000");
+        error.setDescription("Errore tecnico La condizione BP049 non è prevista per il conto id 14537780");
+        errors.add(error);
+        executeMoneyTransferResponse.setErrors(errors);
+        return executeMoneyTransferResponse;
+    }
 }

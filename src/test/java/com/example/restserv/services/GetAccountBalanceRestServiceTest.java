@@ -40,7 +40,7 @@ class GetAccountBalanceRestServiceTest {
     private GetAccountBalanceRestService getAccountBalanceRestService;
 
     private MockRestServiceServer mockServer;
-    private ObjectMapper mapper = new ObjectMapper();
+    private final ObjectMapper mapper = new ObjectMapper();
 
     @BeforeEach
     public void init() {
@@ -55,14 +55,7 @@ class GetAccountBalanceRestServiceTest {
         mapper.registerModule(new JavaTimeModule());
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        GetAccountBalanceResponse getAccountBalanceResponse = new GetAccountBalanceResponse();
-        getAccountBalanceResponse.setStatus("OK");
-        GetAccountBalancePayloadResponse getAccountBalancePayloadResponse = new GetAccountBalancePayloadResponse();
-        getAccountBalancePayloadResponse.setBalance(100.0);
-        getAccountBalancePayloadResponse.setCurrency("EUR");
-        getAccountBalancePayloadResponse.setAvailableBalance(100.0);
-        getAccountBalancePayloadResponse.setDate(LocalDate.now());
-        getAccountBalanceResponse.setPayload(getAccountBalancePayloadResponse);
+        GetAccountBalanceResponse getAccountBalanceResponse = prepareMockResponse();
 
         mockServer.expect(ExpectedCount.once(),
                         requestTo(new URI("http://localhost:8080/" + ACCOUNTS_URI + "/1/balance")))
@@ -76,6 +69,18 @@ class GetAccountBalanceRestServiceTest {
         mockServer.verify();
         Assertions.assertEquals(getAccountBalanceResponse, accountBalanceRequest);
 
+    }
+
+    private static GetAccountBalanceResponse prepareMockResponse() {
+        GetAccountBalanceResponse getAccountBalanceResponse = new GetAccountBalanceResponse();
+        getAccountBalanceResponse.setStatus("OK");
+        GetAccountBalancePayloadResponse getAccountBalancePayloadResponse = new GetAccountBalancePayloadResponse();
+        getAccountBalancePayloadResponse.setBalance(100.0);
+        getAccountBalancePayloadResponse.setCurrency("EUR");
+        getAccountBalancePayloadResponse.setAvailableBalance(100.0);
+        getAccountBalancePayloadResponse.setDate(LocalDate.now());
+        getAccountBalanceResponse.setPayload(getAccountBalancePayloadResponse);
+        return getAccountBalanceResponse;
     }
 
 }
