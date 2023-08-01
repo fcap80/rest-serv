@@ -2,8 +2,6 @@ package com.example.restserv.services;
 
 import com.example.restserv.model.Transaction;
 import com.example.restserv.model.TransactionType;
-import com.example.restserv.responses.balance.GetAccountBalancePayloadResponse;
-import com.example.restserv.responses.balance.GetAccountBalanceResponse;
 import com.example.restserv.responses.transactions.GetTransactionsPayloadResponse;
 import com.example.restserv.responses.transactions.GetTransactionsResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -95,7 +93,7 @@ class GetTransactionsRestServiceTest {
         transactionType.setEnumeration("tp-enum");
         transaction.setType(transactionType);
         transaction.setDescription("desc");
-        transaction.setAccountingDate(LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE));
+        transaction.setAccountingDate(LocalDate.now());
         list.add(transaction);
         getTransactionsPayloadResponse.setList(list);
         getTransactionsResponse.setPayload(getTransactionsPayloadResponse);

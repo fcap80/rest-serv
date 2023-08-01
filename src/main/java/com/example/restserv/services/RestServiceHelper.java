@@ -41,6 +41,7 @@ public class RestServiceHelper {
     public String composeBaseUrlForAccounts() {
         return restBaseUrl + "/" + SharedConstants.RestParams.ACCOUNTS_URI;
     }
+
     public String getRestBaseUrl() {
         return this.restBaseUrl;
     }

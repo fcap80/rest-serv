@@ -14,6 +14,8 @@ public class Transaction {
     private @Nullable LocalDate accountingDate;
     private @Nullable LocalDate valueDate;
     private @Nullable TransactionType type;
+    private @Nullable String typeEnumeration;
+    private @Nullable String typeValue;
     private double amount;
     private String currency;
     private @Nullable String description;
@@ -57,8 +59,29 @@ public class Transaction {
         return type;
     }
 
+    public void setTypeEnumeration(@Nullable String typeEnumeration) {
+        this.typeEnumeration = typeEnumeration;
+    }
+
+    public void setTypeValue(@Nullable String typeValue) {
+        this.typeValue = typeValue;
+    }
+
     public void setType(TransactionType type) {
         this.type = type;
+    }
+
+
+    public String getTypeEnumeration() {
+        if (getType() != null) {
+            return getType().getEnumeration();
+        } else return typeEnumeration;
+    }
+
+    public String getTypeValue() {
+        if (getType() != null) {
+            return getType().getValue();
+        } else return typeValue;
     }
 
     public double getAmount() {

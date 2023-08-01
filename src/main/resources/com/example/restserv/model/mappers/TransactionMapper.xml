@@ -1,28 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.restserv.model.mappers.TransactionMapperBase">
+<mapper namespace="com.example.restserv.model.mappers.TransactionMapper">
     <resultMap id="TransactionRM" type="com.example.restserv.model.Transaction">
         <id column="TRANSACTION_ID" javaType="java.lang.String" jdbcType="VARCHAR" property="transactionId"/>
         <result column="OPERATION_ID" javaType="java.lang.String" jdbcType="VARCHAR" property="operationId"/>
         <result column="ACCOUNTING_DATE" javaType="java.time.LocalDate" jdbcType="DATE" property="accountingDate"/>
         <result column="VALUE_DATE" javaType="java.time.LocalDate" jdbcType="DATE" property="valueDate"/>
-        <result column="TYPE" javaType="TransactionType" jdbcType="VARCHAR" property="type"/>
+        <result column="TYPE_ENUMERATION" javaType="java.lang.String" jdbcType="VARCHAR" property="typeEnumeration"/>
+        <result column="TYPE_VALUE" javaType="java.lang.String" jdbcType="VARCHAR" property="typeValue"/>
         <result column="AMOUNT" javaType="double" jdbcType="NUMERIC" property="amount"/>
         <result column="CURRENCY" javaType="java.lang.String" jdbcType="VARCHAR" property="currency"/>
         <result column="DESCRIPTION" javaType="java.lang.String" jdbcType="VARCHAR" property="description"/>
     </resultMap>
 
     <sql id="allColumnsTransactionUnqualified">
-        TRANSACTION_ID, OPERATION_ID, ACCOUNTING_DATE, VALUE_DATE, TYPE, AMOUNT, CURRENCY, DESCRIPTION
+        TRANSACTION_ID, OPERATION_ID, ACCOUNTING_DATE, VALUE_DATE, TYPE_ENUMERATION, TYPE_VALUE, AMOUNT, CURRENCY, DESCRIPTION
     </sql>
 
     <select id="selectAll" resultMap="TransactionRM">
-        SELECT TRANSACTION_ID, OPERATION_ID, ACCOUNTING_DATE, VALUE_DATE, TYPE, AMOUNT, CURRENCY, DESCRIPTION
+        SELECT TRANSACTION_ID, OPERATION_ID, ACCOUNTING_DATE, VALUE_DATE, TYPE_ENUMERATION, TYPE_VALUE, AMOUNT, CURRENCY, DESCRIPTION
         FROM TRANSACTION
     </select>
 
     <select id="selectByPk" resultMap="TransactionRM">
-        SELECT TRANSACTION_ID, OPERATION_ID, ACCOUNTING_DATE, VALUE_DATE, TYPE, AMOUNT, CURRENCY, DESCRIPTION
+        SELECT TRANSACTION_ID, OPERATION_ID, ACCOUNTING_DATE, VALUE_DATE, TYPE_ENUMERATION, TYPE_VALUE, AMOUNT, CURRENCY, DESCRIPTION
         FROM TRANSACTION
         WHERE TRANSACTION_ID = #{transactionId, jdbcType=VARCHAR}
     </select>
@@ -33,7 +34,8 @@
     ,     OPERATION_ID
     ,     ACCOUNTING_DATE
     ,     VALUE_DATE
-    ,     TYPE
+    ,     TYPE_ENUMERATION
+    ,     TYPE_VALUE
     ,     AMOUNT
     ,     CURRENCY
     ,     DESCRIPTION
@@ -42,7 +44,8 @@
         ,     #{operationId, jdbcType=VARCHAR}
         ,     #{accountingDate, jdbcType=DATE}
         ,     #{valueDate, jdbcType=DATE}
-        ,     #{type.enumaration, jdbcType=VARCHAR}
+        ,     #{typeEnumeration, jdbcType=VARCHAR}
+        ,     #{typeValue, jdbcType=VARCHAR}
         ,     #{amount, jdbcType=NUMERIC}
         ,     #{currency, jdbcType=VARCHAR}
         ,     #{description, jdbcType=VARCHAR}
@@ -55,7 +58,8 @@
             OPERATION_ID = #{operationId, jdbcType=VARCHAR},
             ACCOUNTING_DATE = #{accountingDate, jdbcType=DATE},
             VALUE_DATE = #{valueDate, jdbcType=DATE},
-            TYPE = #{type.enumaration, jdbcType=VARCHAR},
+            TYPE_ENUMERATION = #{typeEnumeration, jdbcType=VARCHAR},
+            TYPE_VALUE = #{typeValue, jdbcType=VARCHAR},
             AMOUNT = #{amount, jdbcType=NUMERIC},
             CURRENCY = #{currency, jdbcType=VARCHAR},
             DESCRIPTION = #{description, jdbcType=VARCHAR}

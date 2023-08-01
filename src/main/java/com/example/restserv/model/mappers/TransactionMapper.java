@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 @Repository
 @Primary
-public interface TransactionMapperBase {
+public interface TransactionMapper {
     List<Transaction> selectAll();
 
     @Nullable

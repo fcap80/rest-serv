@@ -4,6 +4,9 @@ import java.util.Objects;
 
 public class Account {
 
+    public Account() {
+    }
+
     private String accountCode;
 
     public Account(String accountCode) {

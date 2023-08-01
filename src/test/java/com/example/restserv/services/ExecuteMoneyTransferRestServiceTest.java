@@ -1,11 +1,7 @@
 package com.example.restserv.services;
 
 import com.example.restserv.model.Error;
-import com.example.restserv.model.Transaction;
-import com.example.restserv.model.TransactionType;
 import com.example.restserv.responses.moneytransfer.ExecuteMoneyTransferResponse;
-import com.example.restserv.responses.transactions.GetTransactionsPayloadResponse;
-import com.example.restserv.responses.transactions.GetTransactionsResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -27,7 +23,6 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 

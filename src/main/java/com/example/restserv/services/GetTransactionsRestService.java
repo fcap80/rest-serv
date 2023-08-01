@@ -2,7 +2,7 @@ package com.example.restserv.services;
 
 import com.example.restserv.exceptions.RestApiException;
 import com.example.restserv.model.Transaction;
-import com.example.restserv.model.mappers.TransactionMapperBase;
+import com.example.restserv.model.mappers.TransactionMapper;
 import com.example.restserv.requests.GetAccountTransactionsRequest;
 import com.example.restserv.responses.transactions.GetTransactionsResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -28,14 +27,14 @@ public class GetTransactionsRestService {
     private final RestServiceHelper restServiceHelper;
     private final RestTemplate restTemplate;
 
-    private final TransactionMapperBase transactionMapperBase;
+    private final TransactionMapper transactionMapper;
 
     public GetTransactionsRestService(RestServiceHelper restServiceHelper,
                                       RestTemplate restTemplate,
-                                      TransactionMapperBase transactionMapperBase) {
+                                      TransactionMapper transactionMapper) {
         this.restServiceHelper = restServiceHelper;
         this.restTemplate = restTemplate;
-        this.transactionMapperBase = transactionMapperBase;
+        this.transactionMapper = transactionMapper;
     }
 
     protected GetTransactionsResponse getTransactions(@Nonnull GetAccountTransactionsRequest getAccountTransactionsRequest)
@@ -78,14 +77,14 @@ public class GetTransactionsRestService {
         }
     }
 
-    @Scheduled(fixedDelay = 30_000L)
+    //@Scheduled(fixedDelay = 30_000L)
     public void sendGetTransactions() {
         GetTransactionsResponse transactionsRequest = getTransactionsRequest(14537780L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 10));
 
         for (Transaction transaction : transactionsRequest.getPayload().getList()) {
-            transactionMapperBase.insert(transaction);
+            if (transactionMapper.update(transaction) == 0) {
+                transactionMapper.insert(transaction);
+            }
         }
-
-
     }
 }

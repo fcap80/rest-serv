@@ -62,13 +62,12 @@ public class ExecuteWireTransferRequest {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("ExecuteWireTransferRequest{");
-        sb.append(", description='").append(description).append('\'');
-        sb.append(", currency='").append(currency).append('\'');
-        sb.append(", amount=").append(amount);
-        sb.append(", executionDate=").append(executionDate);
-        sb.append(", creditor=").append(creditor);
-        sb.append('}');
-        return sb.toString();
+        String sb = "ExecuteWireTransferRequest{" + ", description='" + description + '\'' +
+                ", currency='" + currency + '\'' +
+                ", amount=" + amount +
+                ", executionDate=" + executionDate +
+                ", creditor=" + creditor +
+                '}';
+        return sb;
     }
 }
