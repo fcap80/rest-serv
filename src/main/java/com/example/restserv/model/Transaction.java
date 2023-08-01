@@ -2,6 +2,7 @@ package com.example.restserv.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.annotation.Nullable;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -10,12 +11,12 @@ public class Transaction {
 
     private String transactionId;
     private String operationId;
-    private LocalDate accountingDate;
-    private LocalDate valueDate;
-    private TransactionType type;
+    private @Nullable LocalDate accountingDate;
+    private @Nullable LocalDate valueDate;
+    private @Nullable TransactionType type;
     private double amount;
     private String currency;
-    private String description;
+    private @Nullable String description;
 
     public Transaction() {
     }

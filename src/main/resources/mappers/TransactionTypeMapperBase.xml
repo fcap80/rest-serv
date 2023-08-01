@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.restserv.model.mappers.TransactionTypeMapperBase">
+    <resultMap id="TransactionTypeRM" type="com.example.restserv.model.TransactionType">
+        <id column="ENUMERATION" javaType="java.lang.String" jdbcType="VARCHAR" property="enumeration"/>
+        <result column="VALUE" javaType="java.lang.String" jdbcType="VARCHAR" property="value"/>
+    </resultMap>
+
+    <sql id="allColumnsTransactionTypeUnqualified">ENUMERATION, VALUE</sql>
+
+    <select id="selectAll" resultMap="TransactionTypeRM">
+        SELECT ENUMERATION, VALUE
+        FROM TRANSACTION_TYPE
+    </select>
+
+    <select id="selectByPk" resultMap="TransactionTypeRM">
+        SELECT ENUMERATION, VALUE
+        FROM TRANSACTION_TYPE
+        WHERE ENUMERATION = #{enumeration, jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="com.listgroup.liquiditymanager.datamodel.generated.model.TransactionType">
+        INSERT INTO TRANSACTION_TYPE (
+            ENUMERATION
+        ,   VALUE
+        ) VALUES (
+            #{enumeration, jdbcType=VARCHAR}
+        ,    #{value, jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.example.restserv.model.TransactionType">
+        UPDATE TRANSACTION_TYPE
+        SET VALUE = #{value, jdbcType=VARCHAR}
+        WHERE ENUMERATION = #{enumeration, jdbcType=VARCHAR}
+    </update>
+
+</mapper>

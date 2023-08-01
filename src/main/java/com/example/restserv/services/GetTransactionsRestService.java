@@ -1,6 +1,8 @@
 package com.example.restserv.services;
 
 import com.example.restserv.exceptions.RestApiException;
+import com.example.restserv.model.Transaction;
+import com.example.restserv.model.mappers.TransactionMapperBase;
 import com.example.restserv.requests.GetAccountTransactionsRequest;
 import com.example.restserv.responses.transactions.GetTransactionsResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,10 +28,14 @@ public class GetTransactionsRestService {
     private final RestServiceHelper restServiceHelper;
     private final RestTemplate restTemplate;
 
+    private final TransactionMapperBase transactionMapperBase;
+
     public GetTransactionsRestService(RestServiceHelper restServiceHelper,
-                                      RestTemplate restTemplate) {
+                                      RestTemplate restTemplate,
+                                      TransactionMapperBase transactionMapperBase) {
         this.restServiceHelper = restServiceHelper;
         this.restTemplate = restTemplate;
+        this.transactionMapperBase = transactionMapperBase;
     }
 
     protected GetTransactionsResponse getTransactions(@Nonnull GetAccountTransactionsRequest getAccountTransactionsRequest)
@@ -74,6 +80,12 @@ public class GetTransactionsRestService {
 
     @Scheduled(fixedDelay = 30_000L)
     public void sendGetTransactions() {
-        getTransactionsRequest(14537780L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 10));
+        GetTransactionsResponse transactionsRequest = getTransactionsRequest(14537780L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 10));
+
+        for (Transaction transaction : transactionsRequest.getPayload().getList()) {
+            transactionMapperBase.insert(transaction);
+        }
+
+
     }
 }
