@@ -10,7 +10,7 @@ public class Transaction {
 
     private String transactionId;
     private String operationId;
-    private String accountingDate;
+    private LocalDate accountingDate;
     private LocalDate valueDate;
     private TransactionType type;
     private double amount;
@@ -36,11 +36,11 @@ public class Transaction {
         this.operationId = operationId;
     }
 
-    public String getAccountingDate() {
+    public LocalDate getAccountingDate() {
         return accountingDate;
     }
 
-    public void setAccountingDate(String accountingDate) {
+    public void setAccountingDate(LocalDate accountingDate) {
         this.accountingDate = accountingDate;
     }
 

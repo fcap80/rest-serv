@@ -40,7 +40,6 @@ public class GetTransactionsRestService {
             HttpEntity<Void> requestEntity = restServiceHelper.createBaseRequestEntity();
             String composedUrl = url + "/{accountId}/transactions";
 
-
             String urlTemplate = UriComponentsBuilder.fromHttpUrl(composedUrl)
                     .queryParam("fromAccountingDate", getAccountTransactionsRequest.getFromAccountingDate())
                     .queryParam("toAccountingDate", getAccountTransactionsRequest.getToAccountingDate())
@@ -73,7 +72,7 @@ public class GetTransactionsRestService {
         }
     }
 
-    //@Scheduled(fixedDelay = 30_000L)
+    @Scheduled(fixedDelay = 30_000L)
     public void sendGetTransactions() {
         getTransactionsRequest(14537780L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 10));
     }

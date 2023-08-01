@@ -1,4 +1,4 @@
-rest-base-url: 'test'
+rest-base-url: 'https://sandbox.platfr.io'
 
 auth-schema: 'S2S'
 

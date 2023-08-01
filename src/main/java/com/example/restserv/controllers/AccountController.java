@@ -41,7 +41,7 @@ public class AccountController {
 
     @PostMapping("/{accountId}/payments/money-transfer")
     public void getTransactions(@PathVariable("accountId") Long accountId,
-                                             @RequestBody ExecuteWireTransferRequest executeWireTransferRequest) throws RestApiException, JsonProcessingException {
+                                @RequestBody ExecuteWireTransferRequest executeWireTransferRequest) throws RestApiException, JsonProcessingException {
         executeMoneyTransferRestService.executeWireTransfer(
                 accountId, executeWireTransferRequest);
     }
