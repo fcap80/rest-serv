@@ -1,7 +1,6 @@
 package com.example.restserv.responses.moneytransfer;
 
 import com.example.restserv.model.Error;
-import com.example.restserv.responses.balance.GetAccountBalanceResponse;
 
 import java.util.List;
 import java.util.Objects;

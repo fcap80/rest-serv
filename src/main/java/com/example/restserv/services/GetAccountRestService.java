@@ -41,7 +41,7 @@ public class GetAccountRestService {
             LOGGER.error("Error", e);
             return e.getResponseBodyAs(GetAccountResponse.class);
         } catch (Exception e) {
-            LOGGER.error("Really bad Error happened", e);
+            LOGGER.error("Unexpected Exception", e);
             throw new RestApiException();
         }
     }

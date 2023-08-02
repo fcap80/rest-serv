@@ -39,22 +39,25 @@ public class Transaction {
         this.operationId = operationId;
     }
 
+    @Nullable
     public LocalDate getAccountingDate() {
         return accountingDate;
     }
 
-    public void setAccountingDate(LocalDate accountingDate) {
+    public void setAccountingDate(@Nullable LocalDate accountingDate) {
         this.accountingDate = accountingDate;
     }
 
+    @Nullable
     public LocalDate getValueDate() {
         return valueDate;
     }
 
-    public void setValueDate(LocalDate valueDate) {
+    public void setValueDate(@Nullable LocalDate valueDate) {
         this.valueDate = valueDate;
     }
 
+    @Nullable
     public TransactionType getType() {
         return type;
     }
@@ -67,7 +70,7 @@ public class Transaction {
         this.typeValue = typeValue;
     }
 
-    public void setType(TransactionType type) {
+    public void setType(@Nullable TransactionType type) {
         this.type = type;
     }
 
@@ -100,11 +103,12 @@ public class Transaction {
         this.currency = currency;
     }
 
+    @Nullable
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(@Nullable String description) {
         this.description = description;
     }
 

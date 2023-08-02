@@ -5,7 +5,6 @@ import com.example.restserv.model.Account;
 import com.example.restserv.model.Creditor;
 import com.example.restserv.requests.ExecuteWireTransferRequest;
 import com.example.restserv.responses.moneytransfer.ExecuteMoneyTransferResponse;
-import com.example.restserv.responses.transactions.GetTransactionsResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +43,7 @@ public class ExecuteMoneyTransferRestService {
             LOGGER.error("Error", e);
             return e.getResponseBodyAs(ExecuteMoneyTransferResponse.class);
         } catch (Exception e) {
-            LOGGER.error("Really bad Error happened", e);
+            LOGGER.error("Unexpected Exception", e);
             throw new RestApiException();
         }
     }

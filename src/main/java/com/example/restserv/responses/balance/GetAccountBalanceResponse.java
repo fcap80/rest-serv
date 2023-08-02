@@ -1,7 +1,6 @@
 package com.example.restserv.responses.balance;
 
 import com.example.restserv.model.Error;
-import com.example.restserv.responses.transactions.GetTransactionsResponse;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;

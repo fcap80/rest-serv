@@ -1,9 +1,7 @@
 package com.example.restserv.services;
 
-import com.example.restserv.exceptions.RestApiException;
 import com.example.restserv.requests.GetAccountOrBalanceRequest;
 import com.example.restserv.responses.balance.GetAccountBalanceResponse;
-import com.example.restserv.responses.transactions.GetTransactionsResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +29,7 @@ public class GetAccountBalanceRestService {
     }
 
     private GetAccountBalanceResponse getAccountBalance(@Nonnull GetAccountOrBalanceRequest getAccountOrBalanceRequest)
-            throws RestApiException, JsonProcessingException {
+            throws JsonProcessingException {
         String url = restServiceHelper.composeBaseUrlForAccounts();
         ResponseEntity<GetAccountBalanceResponse> responseEntity;
         try {
@@ -42,7 +40,7 @@ public class GetAccountBalanceRestService {
             LOGGER.error("Error", e);
             return e.getResponseBodyAs(GetAccountBalanceResponse.class);
         } catch (Exception e) {
-            LOGGER.error("Error", e);
+            LOGGER.error("Unexpected Exception", e);
             throw e;
         }
     }
