@@ -72,7 +72,7 @@ class GetTransactionsRestServiceTest {
                         .body(mapper.writeValueAsString(getTransactionsResponse))
                 );
 
-        GetTransactionsResponse transactionsResponse = getTransactionsRestService.getTransactionsRequest(
+        GetTransactionsResponse transactionsResponse = getTransactionsRestService.performGetTransactions(
                 1, LocalDate.now(), LocalDate.now());
         mockServer.verify();
         Assertions.assertEquals(getTransactionsResponse, transactionsResponse);

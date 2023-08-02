@@ -110,17 +110,16 @@ public class Transaction {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Transaction{");
-        sb.append("transactionId='").append(transactionId).append('\'');
-        sb.append(", operationId='").append(operationId).append('\'');
-        sb.append(", accountingDate='").append(accountingDate).append('\'');
-        sb.append(", valueDate=").append(valueDate);
-        sb.append(", type=").append(type);
-        sb.append(", amount=").append(amount);
-        sb.append(", currency='").append(currency).append('\'');
-        sb.append(", description='").append(description).append('\'');
-        sb.append('}');
-        return sb.toString();
+        String sb = "Transaction{" + "transactionId='" + transactionId + '\'' +
+                ", operationId='" + operationId + '\'' +
+                ", accountingDate='" + accountingDate + '\'' +
+                ", valueDate=" + valueDate +
+                ", type=" + type +
+                ", amount=" + amount +
+                ", currency='" + currency + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+        return sb;
     }
 
     @Override

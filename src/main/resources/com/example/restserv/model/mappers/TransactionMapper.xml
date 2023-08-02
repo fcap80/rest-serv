@@ -18,52 +18,64 @@
     </sql>
 
     <select id="selectAll" resultMap="TransactionRM">
-        SELECT TRANSACTION_ID, OPERATION_ID, ACCOUNTING_DATE, VALUE_DATE, TYPE_ENUMERATION, TYPE_VALUE, AMOUNT, CURRENCY, DESCRIPTION
+        SELECT TRANSACTION_ID,
+               OPERATION_ID,
+               ACCOUNTING_DATE,
+               VALUE_DATE,
+               TYPE_ENUMERATION,
+               TYPE_VALUE,
+               AMOUNT,
+               CURRENCY,
+               DESCRIPTION
         FROM TRANSACTION
     </select>
 
     <select id="selectByPk" resultMap="TransactionRM">
-        SELECT TRANSACTION_ID, OPERATION_ID, ACCOUNTING_DATE, VALUE_DATE, TYPE_ENUMERATION, TYPE_VALUE, AMOUNT, CURRENCY, DESCRIPTION
+        SELECT TRANSACTION_ID,
+               OPERATION_ID,
+               ACCOUNTING_DATE,
+               VALUE_DATE,
+               TYPE_ENUMERATION,
+               TYPE_VALUE,
+               AMOUNT,
+               CURRENCY,
+               DESCRIPTION
         FROM TRANSACTION
         WHERE TRANSACTION_ID = #{transactionId, jdbcType=VARCHAR}
     </select>
 
     <insert id="insert" parameterType="com.example.restserv.model.Transaction">
-    INSERT INTO TRANSACTION (
-        TRANSACTION_ID
-    ,     OPERATION_ID
-    ,     ACCOUNTING_DATE
-    ,     VALUE_DATE
-    ,     TYPE_ENUMERATION
-    ,     TYPE_VALUE
-    ,     AMOUNT
-    ,     CURRENCY
-    ,     DESCRIPTION
-    ) VALUES (
-            #{transactionId, jdbcType=VARCHAR}
-        ,     #{operationId, jdbcType=VARCHAR}
-        ,     #{accountingDate, jdbcType=DATE}
-        ,     #{valueDate, jdbcType=DATE}
-        ,     #{typeEnumeration, jdbcType=VARCHAR}
-        ,     #{typeValue, jdbcType=VARCHAR}
-        ,     #{amount, jdbcType=NUMERIC}
-        ,     #{currency, jdbcType=VARCHAR}
-        ,     #{description, jdbcType=VARCHAR}
-        )
+        INSERT INTO TRANSACTION ( TRANSACTION_ID
+                                , OPERATION_ID
+                                , ACCOUNTING_DATE
+                                , VALUE_DATE
+                                , TYPE_ENUMERATION
+                                , TYPE_VALUE
+                                , AMOUNT
+                                , CURRENCY
+                                , DESCRIPTION)
+        VALUES ( #{transactionId, jdbcType=VARCHAR}
+               , #{operationId, jdbcType=VARCHAR}
+               , #{accountingDate, jdbcType=DATE}
+               , #{valueDate, jdbcType=DATE}
+               , #{typeEnumeration, jdbcType=VARCHAR}
+               , #{typeValue, jdbcType=VARCHAR}
+               , #{amount, jdbcType=NUMERIC}
+               , #{currency, jdbcType=VARCHAR}
+               , #{description, jdbcType=VARCHAR})
     </insert>
 
     <update id="update" parameterType="com.example.restserv.model.Transaction">
         UPDATE TRANSACTION
-        SET
-            OPERATION_ID = #{operationId, jdbcType=VARCHAR},
-            ACCOUNTING_DATE = #{accountingDate, jdbcType=DATE},
-            VALUE_DATE = #{valueDate, jdbcType=DATE},
+        SET OPERATION_ID     = #{operationId, jdbcType=VARCHAR},
+            ACCOUNTING_DATE  = #{accountingDate, jdbcType=DATE},
+            VALUE_DATE       = #{valueDate, jdbcType=DATE},
             TYPE_ENUMERATION = #{typeEnumeration, jdbcType=VARCHAR},
-            TYPE_VALUE = #{typeValue, jdbcType=VARCHAR},
-            AMOUNT = #{amount, jdbcType=NUMERIC},
-            CURRENCY = #{currency, jdbcType=VARCHAR},
-            DESCRIPTION = #{description, jdbcType=VARCHAR}
-         WHERE TRANSACTION_ID = #{transactionId, jdbcType=VARCHAR}
+            TYPE_VALUE       = #{typeValue, jdbcType=VARCHAR},
+            AMOUNT           = #{amount, jdbcType=NUMERIC},
+            CURRENCY         = #{currency, jdbcType=VARCHAR},
+            DESCRIPTION      = #{description, jdbcType=VARCHAR}
+        WHERE TRANSACTION_ID = #{transactionId, jdbcType=VARCHAR}
     </update>
 
 </mapper>

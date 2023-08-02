@@ -6,7 +6,6 @@ import com.example.restserv.model.Creditor;
 import com.example.restserv.requests.ExecuteWireTransferRequest;
 import com.example.restserv.responses.moneytransfer.ExecuteMoneyTransferResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;

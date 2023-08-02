@@ -3,7 +3,6 @@ package com.example.restserv.services;
 import com.example.restserv.exceptions.RestApiException;
 import com.example.restserv.requests.GetAccountOrBalanceRequest;
 import com.example.restserv.responses.balance.GetAccountBalanceResponse;
-import com.example.restserv.responses.moneytransfer.ExecuteMoneyTransferResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

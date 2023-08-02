@@ -10,7 +10,10 @@ import com.example.restserv.responses.transactions.GetTransactionsResponse;
 import com.example.restserv.services.ExecuteMoneyTransferRestService;
 import com.example.restserv.services.GetAccountBalanceRestService;
 import com.example.restserv.services.GetTransactionsRestService;
+import com.example.restserv.utils.SharedConstants;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -19,6 +22,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
 
     private final GetAccountBalanceRestService getAccountBalanceRestService;
     private final GetTransactionsRestService getTransactionsRestService;
@@ -38,6 +43,7 @@ public class AccountController {
 
     @GetMapping("/{accountId}/balance")
     public GetAccountBalanceResponse getBalance(@PathVariable("accountId") Long accountId) {
+        LOGGER.info("User X requested GET getBalance for account ID: {}", accountId);
         return getAccountBalanceRestService.getAccountBalanceRequest(accountId);
     }
 
@@ -45,9 +51,15 @@ public class AccountController {
     public GetTransactionsResponse getTransactions(@PathVariable("accountId") Long accountId,
                                                    @RequestParam(name = "fromAccountingDate") LocalDate fromAccountingDate,
                                                    @RequestParam(name = "toAccountingDate") LocalDate toAccountingDate) {
-        GetTransactionsResponse transactionsRequest = getTransactionsRestService.getTransactionsRequest(accountId, fromAccountingDate, toAccountingDate);
-        storeRetrievedTransactions(transactionsRequest.getPayload().getList());
-        return transactionsRequest;
+        LOGGER.info("User X requested GET getTransactions for account ID: {}, fromAccountingDate {}, toAccountingDate {}",
+                accountId, fromAccountingDate, toAccountingDate);
+
+        GetTransactionsResponse transactionsResponse = getTransactionsRestService.performGetTransactions(accountId, fromAccountingDate, toAccountingDate);
+        if (SharedConstants.RestParams.RESPONSE_OK.equals(transactionsResponse.getStatus())) {
+            storeRetrievedTransactions(transactionsResponse.getPayload().getList());
+        }
+        LOGGER.info("GET getTransactions response: {}", transactionsResponse);
+        return transactionsResponse;
     }
 
     private void storeRetrievedTransactions(List<Transaction> transactions) {
@@ -61,6 +73,8 @@ public class AccountController {
     @PostMapping("/{accountId}/payments/money-transfer")
     public ExecuteMoneyTransferResponse executeMoneyTransfer(@PathVariable("accountId") Long accountId,
                                                              @RequestBody ExecuteWireTransferRequest executeWireTransferRequest) throws RestApiException, JsonProcessingException {
+        LOGGER.info("User X requested POST getBalance for account ID: {}, content {}", accountId, executeWireTransferRequest);
+
         return executeMoneyTransferRestService.executeWireTransfer(
                 accountId, executeWireTransferRequest);
     }

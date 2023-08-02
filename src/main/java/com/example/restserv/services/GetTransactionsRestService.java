@@ -4,7 +4,6 @@ import com.example.restserv.exceptions.RestApiException;
 import com.example.restserv.model.Transaction;
 import com.example.restserv.model.mappers.TransactionMapper;
 import com.example.restserv.requests.GetAccountTransactionsRequest;
-import com.example.restserv.responses.account.GetAccountResponse;
 import com.example.restserv.responses.transactions.GetTransactionsResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
@@ -38,7 +37,7 @@ public class GetTransactionsRestService {
         this.transactionMapper = transactionMapper;
     }
 
-    private GetTransactionsResponse getTransactions(@Nonnull GetAccountTransactionsRequest getAccountTransactionsRequest)
+    private GetTransactionsResponse performGetTransactions(@Nonnull GetAccountTransactionsRequest getAccountTransactionsRequest)
             throws RestApiException, JsonProcessingException {
         String url = restServiceHelper.composeBaseUrlForAccounts();
         ResponseEntity<GetTransactionsResponse> responseEntity;
@@ -58,16 +57,16 @@ public class GetTransactionsRestService {
             LOGGER.error("Error", e);
             return e.getResponseBodyAs(GetTransactionsResponse.class);
         } catch (Exception e) {
-            LOGGER.error("Really bad Error happened", e);
-            throw new RestApiException();
+            LOGGER.error("Unexpected Exception", e);
+            throw e;
         }
     }
 
-    public GetTransactionsResponse getTransactionsRequest(long accountId, LocalDate fromAccountingDate, LocalDate toAccountingDate) {
+    public GetTransactionsResponse performGetTransactions(long accountId, LocalDate fromAccountingDate, LocalDate toAccountingDate) {
         GetAccountTransactionsRequest getAccountTransactionsRequest = new GetAccountTransactionsRequest(
                 accountId, fromAccountingDate, toAccountingDate);
         try {
-            GetTransactionsResponse transactions = getTransactions(getAccountTransactionsRequest);
+            GetTransactionsResponse transactions = performGetTransactions(getAccountTransactionsRequest);
             LOGGER.info("Transactions retrieved: {}", transactions);
             return transactions;
         } catch (RestApiException e) {
@@ -75,12 +74,15 @@ public class GetTransactionsRestService {
             throw new RuntimeException(e);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
+        } catch (Exception e) {
+            return GetTransactionsResponse.failWithOneError(
+                    "KO", "ERR-1", "Unexpected Exception: " + e.getMessage());
         }
     }
 
     //@Scheduled(fixedDelay = 30_000L)
     public void sendGetTransactions() {
-        GetTransactionsResponse transactionsRequest = getTransactionsRequest(14537780L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 10));
+        GetTransactionsResponse transactionsRequest = performGetTransactions(14537780L, LocalDate.of(2023, 7, 1), LocalDate.of(2023, 7, 10));
 
         for (Transaction transaction : transactionsRequest.getPayload().getList()) {
             if (transactionMapper.update(transaction) == 0) {
