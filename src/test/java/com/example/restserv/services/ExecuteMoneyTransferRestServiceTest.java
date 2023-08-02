@@ -69,7 +69,7 @@ class ExecuteMoneyTransferRestServiceTest {
                         .body(mapper.writeValueAsString(moneyTransferResponse))
                 );
 
-        ExecuteMoneyTransferResponse transactionsResponse = executeMoneyTransferRestService.executeWireTransfer(
+        ExecuteMoneyTransferResponse transactionsResponse = executeMoneyTransferRestService.performExecuteWireTransfer(
                 TEST_ACCOUNT_ID,
                 "desc-test",
                 "EUR",

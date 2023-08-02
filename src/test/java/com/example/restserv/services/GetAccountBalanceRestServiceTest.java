@@ -65,7 +65,7 @@ class GetAccountBalanceRestServiceTest {
                         .body(mapper.writeValueAsString(getAccountBalanceResponse))
                 );
 
-        GetAccountBalanceResponse accountBalanceRequest = getAccountBalanceRestService.getAccountBalanceRequest(1);
+        GetAccountBalanceResponse accountBalanceRequest = getAccountBalanceRestService.performGetAccountBalance(1);
         mockServer.verify();
         Assertions.assertEquals(getAccountBalanceResponse, accountBalanceRequest);
 

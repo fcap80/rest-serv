@@ -1,6 +1,7 @@
 package com.example.restserv.responses.moneytransfer;
 
 import com.example.restserv.model.Error;
+import com.example.restserv.responses.balance.GetAccountBalanceResponse;
 
 import java.util.List;
 import java.util.Objects;
@@ -9,6 +10,18 @@ public class ExecuteMoneyTransferResponse {
 
     private String status;
     private List<Error> errors;
+
+    public static ExecuteMoneyTransferResponse failWithOneError(String status, String errorCode, String errorDescription) {
+        ExecuteMoneyTransferResponse executeMoneyTransferResponse = new ExecuteMoneyTransferResponse();
+
+        Error error = new Error();
+        error.setCode(errorCode);
+        error.setDescription(errorDescription);
+
+        executeMoneyTransferResponse.getErrors().add(error);
+        executeMoneyTransferResponse.setStatus(status);
+        return executeMoneyTransferResponse;
+    }
 
     public String getStatus() {
         return status;

@@ -1,5 +1,7 @@
 package com.example.restserv.responses.balance;
 
+import com.example.restserv.model.Error;
+import com.example.restserv.responses.transactions.GetTransactionsResponse;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
@@ -13,6 +15,18 @@ public class GetAccountBalanceResponse {
     private GetAccountBalancePayloadResponse payload;
 
     public GetAccountBalanceResponse() {
+    }
+
+    public static GetAccountBalanceResponse failWithOneError(String status, String errorCode, String errorDescription) {
+        GetAccountBalanceResponse getAccountBalanceResponse = new GetAccountBalanceResponse();
+
+        Error error = new Error();
+        error.setCode(errorCode);
+        error.setDescription(errorDescription);
+
+        getAccountBalanceResponse.getErrors().add(error);
+        getAccountBalanceResponse.setStatus(status);
+        return getAccountBalanceResponse;
     }
 
     public String getStatus() {

@@ -44,7 +44,7 @@ public class AccountController {
     @GetMapping("/{accountId}/balance")
     public GetAccountBalanceResponse getBalance(@PathVariable("accountId") Long accountId) {
         LOGGER.info("User X requested GET getBalance for account ID: {}", accountId);
-        return getAccountBalanceRestService.getAccountBalanceRequest(accountId);
+        return getAccountBalanceRestService.performGetAccountBalance(accountId);
     }
 
     @GetMapping("/{accountId}/transactions")
@@ -75,7 +75,7 @@ public class AccountController {
                                                              @RequestBody ExecuteWireTransferRequest executeWireTransferRequest) throws RestApiException, JsonProcessingException {
         LOGGER.info("User X requested POST getBalance for account ID: {}, content {}", accountId, executeWireTransferRequest);
 
-        return executeMoneyTransferRestService.executeWireTransfer(
+        return executeMoneyTransferRestService.performExecuteWireTransfer(
                 accountId, executeWireTransferRequest);
     }
 

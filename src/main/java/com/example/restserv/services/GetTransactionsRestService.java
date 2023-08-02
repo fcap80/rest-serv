@@ -37,7 +37,7 @@ public class GetTransactionsRestService {
         this.transactionMapper = transactionMapper;
     }
 
-    private GetTransactionsResponse performGetTransactions(@Nonnull GetAccountTransactionsRequest getAccountTransactionsRequest)
+    private GetTransactionsResponse getTransactions(@Nonnull GetAccountTransactionsRequest getAccountTransactionsRequest)
             throws RestApiException, JsonProcessingException {
         String url = restServiceHelper.composeBaseUrlForAccounts();
         ResponseEntity<GetTransactionsResponse> responseEntity;
@@ -66,14 +66,12 @@ public class GetTransactionsRestService {
         GetAccountTransactionsRequest getAccountTransactionsRequest = new GetAccountTransactionsRequest(
                 accountId, fromAccountingDate, toAccountingDate);
         try {
-            GetTransactionsResponse transactions = performGetTransactions(getAccountTransactionsRequest);
+            GetTransactionsResponse transactions = getTransactions(getAccountTransactionsRequest);
             LOGGER.info("Transactions retrieved: {}", transactions);
             return transactions;
-        } catch (RestApiException e) {
-            LOGGER.error("Error in invoking API: ", e);
-            throw new RuntimeException(e);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            return GetTransactionsResponse.failWithOneError(
+                    "KO", "ERR-1", "Cannot process JSON: " + e.getMessage());
         } catch (Exception e) {
             return GetTransactionsResponse.failWithOneError(
                     "KO", "ERR-1", "Unexpected Exception: " + e.getMessage());

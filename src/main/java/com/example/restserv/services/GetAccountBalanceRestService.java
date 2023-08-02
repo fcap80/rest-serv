@@ -3,6 +3,7 @@ package com.example.restserv.services;
 import com.example.restserv.exceptions.RestApiException;
 import com.example.restserv.requests.GetAccountOrBalanceRequest;
 import com.example.restserv.responses.balance.GetAccountBalanceResponse;
+import com.example.restserv.responses.transactions.GetTransactionsResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class GetAccountBalanceRestService {
         this.restTemplate = restTemplate;
     }
 
-    protected GetAccountBalanceResponse getAccountBalance(@Nonnull GetAccountOrBalanceRequest getAccountOrBalanceRequest)
+    private GetAccountBalanceResponse getAccountBalance(@Nonnull GetAccountOrBalanceRequest getAccountOrBalanceRequest)
             throws RestApiException, JsonProcessingException {
         String url = restServiceHelper.composeBaseUrlForAccounts();
         ResponseEntity<GetAccountBalanceResponse> responseEntity;
@@ -46,22 +47,23 @@ public class GetAccountBalanceRestService {
         }
     }
 
-    public GetAccountBalanceResponse getAccountBalanceRequest(long accountId) {
+    public GetAccountBalanceResponse performGetAccountBalance(long accountId) {
         GetAccountOrBalanceRequest getAccountOrBalanceRequest = new GetAccountOrBalanceRequest(accountId);
         try {
             GetAccountBalanceResponse accountBalance = getAccountBalance(getAccountOrBalanceRequest);
             LOGGER.info("Account retrieved: {}", accountBalance);
             return accountBalance;
-        } catch (RestApiException e) {
-            LOGGER.error("Error in invoking API: ", e);
-            throw new RuntimeException(e);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            return GetAccountBalanceResponse.failWithOneError(
+                    "KO", "ERR-1", "Cannot process JSON: " + e.getMessage());
+        } catch (Exception e) {
+            return GetAccountBalanceResponse.failWithOneError(
+                    "KO", "ERR-1", "Unexpected Exception: " + e.getMessage());
         }
     }
 
     //@Scheduled(fixedDelay = 30_000L)
     public void sendGetAccountBalance() {
-        getAccountBalanceRequest(14537780L);
+        performGetAccountBalance(14537780L);
     }
 }
